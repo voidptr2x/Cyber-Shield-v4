@@ -3,17 +3,23 @@ module core
 import os
 import core.utils as ut
 
-pub struct CyberShield {
+pub struct CyberShield 
+{
 	pub mut:
-		iface 		string
-		reset		bool
+		iface 		string  /* Interface */
+		reset		bool	/* IPTables Reset Toggle */
+		ui_mode		bool	/* Enable CyberShield's TUI */
 }
 
-pub fn (mut cs CyberShield) set_iface(ifc string) {
+pub fn start_session(ifc string) CyberShield
+{
+	mut cs := CyberShield{}
 	cs.iface = ifc
+	return cs
 }
 
-pub fn (mut cs CyberShield) get_interface() {
+pub fn (mut cs CyberShield) get_interface() 
+{
 	interfaces := cs.get_all_interfaces()
 	iface := os.input("${interfaces}\r\nSelect an interface (0-${interfaces.len-1}): ")
 	if iface == ""
@@ -21,9 +27,11 @@ pub fn (mut cs CyberShield) get_interface() {
 		print("[ X ] Error, Invalid value provided! Exiting....\r\n")
 		exit(0)
 	}
+	cs.iface = iface
 }
 
-pub fn (mut cs CyberShield) get_all_interfaces() []string {
+pub fn (mut cs CyberShield) get_all_interfaces() []string 
+{
 	mut interfaces := []string{}
 	ifcfg := os.execute("ifconfig").output
 	for line in ifcfg.split("\n")
@@ -35,8 +43,4 @@ pub fn (mut cs CyberShield) get_all_interfaces() []string {
 	return ut.remove_empty_elements(interfaces)
 }
 
-pub fn start_session() CyberShield
-{
-	mut cs := CyberShield{}
-	return cs
-}
+pub fn (mut cs Connection) 

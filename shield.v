@@ -17,8 +17,6 @@ _____________________________________________
 fn main() 
 {
 	mut cshield := cs.start_session()
-	
-	mut hdw := info.retrieve_hardware()
 	args := os.args.clone()
 
 	if "-h" in args
@@ -53,6 +51,7 @@ fn main()
 			// }
 
 			if "-hdw" in args[i..] {
+				mut hdw := info.retrieve_hardware()
 				hdw.retrieve_info()
 				print("CPU: ${hdw.cpu_name}\r\n")
 				print("CPU Cores: ${hdw.cpu_cores}\r\n")
