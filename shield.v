@@ -3,7 +3,8 @@ import os
 import core as cs
 import core.tools as info
 
-const help = "    Tools              Description
+const help = "[ x ] Error, Invalid argument(s) provided
+    Tools              Description
 _____________________________________________
     -i              Set interface used in monitor
     -quick          Get quick raw text information.
@@ -16,17 +17,11 @@ _____________________________________________
 fn main() 
 {
 	mut cshield := cs.start_session()
-	mut c := info.start_connection_info("wlo1")
+	
 	mut hdw := info.retrieve_hardware()
 	args := os.args.clone()
-[]]
-	if args.len < 2
-	{
-		print("[ X ] Error, Invalid argument provided\r\nUse flag '-h' for help!\r\n")
-		exit(0)
-	}
 
-	if args[1] == "-h"
+	if "-h" in args
 	{
 		print("${help}\r\n")
 		exit(0)
@@ -34,20 +29,28 @@ fn main()
 
 	for i, arg in args 
 	{
-		
+		/* Set Interface if flag is used*/
 		if arg == "-i" { cshield.iface = args[i+1] } // Interface || -i eth0
 
+		/* Optional IPTables Reset After An Attack */
 		if arg == "-t" { // IPTables Reset || -t 0
-			if args[i+1].int() == 0 { cshield.reset = false }
+			if args[i+1].int() == 0 && args[i+1] != "0" { cshield.reset = false }
 			else if args[i+1].int() == 1 { cshield.reset = true }
 		}
+
+		/*
+			Quick Use Of This Application ('-quick' flag)
+			-con
+			-hdw
+			-os (SOON)
+		*/
 		if arg == "-quick" {
 
-			if "-con" in args[i..] {
-				c.get_pps()
-				print("PPS: ${c.pps}\r\n")
-				c.get_speed()
-			}
+			// if "-con" in args[i..] {
+			// 	c.get_pps()
+			// 	print("PPS: ${c.pps}\r\n")
+			// 	c.get_speed()
+			// }
 
 			if "-hdw" in args[i..] {
 				hdw.retrieve_info()
@@ -63,5 +66,12 @@ fn main()
 		}
 	}
 
-	if cshield.iface == "" { cshield.get_interface() }
+	/* Set infterface when used */
+	if cshield.iface == "" { cshield.get_interface() } else { exit(0) }
+
+	/*
+		Loading Screen 
+
+		Then Run App
+	*/
 }

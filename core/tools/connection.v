@@ -18,15 +18,10 @@ pub struct Connection
 		ms			int
 }
 
-pub fn start_connection_info(ifc string) Connection
+
+pub fn (mut con Connection) get_speed()
 {
 	mut c := Connection{}
-	c.iface = ifc
-	return c
-}
-
-pub fn (mut c Connection) get_speed()
-{
 	go os.execute("speedtest > result.txt")
 	for _ in 0..30 // check speedtest results for 30 seconds
 	{
@@ -49,8 +44,9 @@ pub fn (mut c Connection) get_speed()
 	}
 }
 
-pub fn (mut c Connection) get_pps()
+pub fn (mut con Connection) get_pps() Connection
 {
+	mut c := Connection{}
 	rx_path := packet_path.replace("{interface}", c.iface).replace("{mode}", "rx")
 	tx_path := packet_path.replace("{interface}", c.iface).replace("{mode}", "tx")
 
@@ -63,4 +59,11 @@ pub fn (mut c Connection) get_pps()
 	new_tx := (os.read_file(tx_path) or { "" }).int()
 
 	c.pps = (c.tx - new_tx) - (c.rx - new_rx)
+	return c
+}
+
+pub fn (mut con Connection) run_pps() {
+	for {
+		con = con.get_pps()
+	}
 }

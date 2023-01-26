@@ -1,6 +1,7 @@
 module core
 
 import os
+import core.utils as ut
 
 pub struct CyberShield {
 	pub mut:
@@ -14,10 +15,10 @@ pub fn (mut cs CyberShield) set_iface(ifc string) {
 
 pub fn (mut cs CyberShield) get_interface() {
 	interfaces := cs.get_all_interfaces()
-	iface := os.input("Select an interface (0-${interfaces.len}): ")
+	iface := os.input("${interfaces}\r\nSelect an interface (0-${interfaces.len-1}): ")
 	if iface == ""
 	{
-		print("[ X ] Error, Invalid value provided! Exiting....")
+		print("[ X ] Error, Invalid value provided! Exiting....\r\n")
 		exit(0)
 	}
 }
@@ -31,7 +32,7 @@ pub fn (mut cs CyberShield) get_all_interfaces() []string {
 			interfaces << line.split(":")[0]
 		}
 	}
-	return interfaces
+	return ut.remove_empty_elements(interfaces)
 }
 
 pub fn start_session() CyberShield
