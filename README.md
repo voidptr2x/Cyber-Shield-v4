@@ -11,7 +11,7 @@
 
 </div>
 
-# Features Of Cyber Shield v4.0
+### Features Of Cyber Shield v4.0
 
 - Optional TUI mode with ``-tui`` flag
 - Reset IPTables After an attack has successfully finished with ``-reset`` flag
@@ -26,3 +26,9 @@
 - Dropping UDP/TCP Flood Techniques
 - Dump files containing the following information. ``Connections``, ``Attacked Port``, ``Current PPS``, ``Current CPU Usage``, ``Current BPS``, ``Nload Statistics``, ``Packet Data in Hex Strings``, ``PPS Data Graph``
 - Supported to work on all linux platforms
+
+### How To Install
+Ubuntu / Debian (Officially created on ubuntu 20.04 LTS)
+```
+sudo apt install git -y
+git clone https://github.com/NefariousTheDev/Cyber-Shield-v4.git
