@@ -4,7 +4,8 @@
 </div>
 <center>
 [Official Website](https://cybershield.shop/)
-<!-- </center> -->
+[Discord Server](https://discord.gg/CyberShield)
+</center>
 Features Of Cyber Shield v4.0
 
 - Optional TUI mode with ``-tui`` flag
