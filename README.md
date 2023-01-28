@@ -6,7 +6,7 @@
 
 [Official Website](https://cybershield.shop/) |
 [Shield v4.0 Discord](https://discord.gg/Aj8CYnx79V) |
-[Shield Community Discord](https://discord.gg/CyberShield) |
+[Shield Community Discord](https://discord.gg/CyberShield) 
 
 
 </div>
