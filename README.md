@@ -5,5 +5,5 @@
 
 Features Of Cyber Shield v4.0
 
-- Monitor More than one interface (LAST_TASK)
-- Terminal User Interface (Design,Logos,ASCII,Layouts)
+- Optional TUI Mode With ``-tui`` flag (NOT_COMPLETED)
+- Terminal User Interface (Designs, Logos, ASCII, Layouts)
