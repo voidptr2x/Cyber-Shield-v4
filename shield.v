@@ -1,8 +1,6 @@
 import os
 
 import core as cs
-import core.tui
-import core.tools as tl
 
 const help = "[ x ] Error, Invalid argument(s) provided
 Usage: ${os.args.clone()[0]} -i <interface> ++

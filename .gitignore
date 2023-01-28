@@ -1,3 +1,6 @@
 
 pps.v
 shield
+*.zip
+shield
+core/tui/parser
