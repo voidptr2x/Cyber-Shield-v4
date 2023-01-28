@@ -32,3 +32,6 @@ Ubuntu / Debian (Officially created on ubuntu 20.04 LTS)
 ```
 sudo apt install git -y
 git clone https://github.com/NefariousTheDev/Cyber-Shield-v4.git
+cd Cyber-Shield-v4
+./shield -h
+```
