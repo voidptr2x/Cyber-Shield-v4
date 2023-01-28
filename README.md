@@ -4,8 +4,10 @@
 </div>
 <div align="center">
 
-[Official Website](https://cybershield.shop/)
-[Discord Server](https://discord.gg/CyberShield)
+[Official Website](https://cybershield.shop/) |
+[Cyber Shield v4.0 Discord Server](https://discord.gg/Aj8CYnx79V)
+[Cyber Shield Server](https://discord.gg/CyberShield) |
+
 
 </div>
 Features Of Cyber Shield v4.0
