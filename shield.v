@@ -1,13 +1,23 @@
 import os
 
 import core as cs
-import core.tools as info
+import core.tui
 
 const help = "[ x ] Error, Invalid argument(s) provided
+Usage: ${os.args.clone()[0]} -i <interface> ++
     Tools              Description
 _____________________________________________
     -i              Set interface used in monitor
+                    Flag(s): <interface>
+    -tui            Enable TUI mode
+    -noreset        Disable IPTables Reset After an attack
+    -ball           Block incoming connection access
+    -wip            Whitlist an IP Address
+                    Flag(s): <ip>
+    -bip            Manually block an IP
+    				Flag(s): <ip>
     -quick          Get quick raw text information.
+       Flag(s):
         -con        Display connection info
         -hdw        Display hardware info
         -os         Display OS info
@@ -24,53 +34,41 @@ fn main()
 		print("${help}\r\n")
 		exit(0)
 	}
+	if "-tui" in args { cshield.ui_mode = true } // UI Mode
+	if "-noreset" in args { cshield.reset = true } // Firewall Reset
 
 	for i, arg in args 
 	{
-		/* Set Interface if flag is used*/
-		if arg == "-i" { cshield.iface = args[i+1] } // Interface || -i eth0
+		if arg == "-i" { cshield.set_interface(args[i+1]) } // Set Interface
 
 		/* Optional IPTables Reset After An Attack */
-		if arg == "-t" { // IPTables Reset || -t 0
-			if args[i+1].int() == 0 && args[i+1] != "0" { cshield.reset = false }
-			else if args[i+1].int() == 1 { cshield.reset = true }
-		}
+		if arg == "-t" { if args[i+1].int() == 1 { cshield.reset = true } }
 
-		/*
-			Quick Use Of This Application ('-quick' flag)
-			-con
-			-hdw
-			-os (SOON)
-		*/
 		if arg == "-quick" {
-
-			// if "-con" in args[i..] {
-			// 	c.get_pps()
-			// 	print("PPS: ${c.pps}\r\n")
-			// 	c.get_speed()
-			// }
+			if "-con" in args[i..] {
+				// quick raw text function needed to be called here
+			}
 
 			if "-hdw" in args[i..] {
-				mut hdw := info.retrieve_hardware()
-				hdw.retrieve_info()
-				print("CPU: ${hdw.cpu_name}\r\n")
-				print("CPU Cores: ${hdw.cpu_cores}\r\n")
-				print("CPU Usage: ${hdw.cpu_usage}%\r\n")
+				// quick raw text function needed to be called here
+			}
 
-				print("Memory Capacity: ${hdw.memory_capacity} GB\r\n")
-				print("Memory Free: ${hdw.memory_free} GB\r\n")
-				print("Memory Usage: ${hdw.memory_used}/${hdw.memory_capacity} GB\r\n")
+			if "-os" in args[i..] {
+				// quick raw text function needed to be called here
 			}
 			exit(0)
 		}
 	}
 
-	/* Set infterface when used */
-	if cshield.iface == "" { cshield.get_interface() } else { exit(0) }
+	/* Set interface when used */
+	if cshield.iface == "" { cshield.get_interface() } 
+	if cshield.iface == "" { exit(0) }
 
 	/*
 		Loading Screen 
 
 		Then Run App
 	*/
+
+	cshield.run_protection()
 }

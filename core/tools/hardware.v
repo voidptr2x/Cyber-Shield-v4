@@ -1,7 +1,6 @@
 module tools
 
 import os
-import math
 
 /*
 	TO-DO:

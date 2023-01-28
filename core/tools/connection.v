@@ -62,8 +62,8 @@ pub fn (mut con Connection) get_pps() Connection
 	return c
 }
 
-pub fn (mut con Connection) run_pps() {
+pub fn run_pps(c Connection) {
 	for {
-		con = con.get_pps()
+		// con := c.get_pps()
 	}
 }
