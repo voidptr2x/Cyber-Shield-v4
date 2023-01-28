@@ -3,5 +3,5 @@
 
 Features Of Cyber Shield v4.0
 
-[ ] Monitor More than one interface (LAST_TASK)
-[x] Terminal User Interface (Design,Logos,ASCII,Layouts)
+- [ ]Monitor More than one interface (LAST_TASK)
+- [x]Terminal User Interface (Design,Logos,ASCII,Layouts)
