@@ -19,6 +19,7 @@ Features Of Cyber Shield v4.0
 - Whitlist IP Addresses with ``-wip`` flag
 - Default protection monitor with no TUI (no outputs)
 - Terminal User Interface (Designs, Logos, ASCII, Layouts)
+- Socket for public dstating visitors
 - Branding Customization System. Create your own UI/Layout!
 - Detect and analyze large connection request spams UDP/TCP for more information
 - Dropping UDP/TCP Flood Techniques
