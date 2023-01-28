@@ -2,6 +2,7 @@ import os
 
 import core as cs
 import core.tui
+import core.tools as tl
 
 const help = "[ x ] Error, Invalid argument(s) provided
 Usage: ${os.args.clone()[0]} -i <interface> ++
@@ -34,12 +35,10 @@ fn main()
 		print("${help}\r\n")
 		exit(0)
 	}
-	if "-tui" in args { cshield.ui_mode = true } // UI Mode
-	if "-noreset" in args { cshield.reset = true } // Firewall Reset
 
 	for i, arg in args 
 	{
-		if arg == "-i" { cshield.set_interface(args[i+1]) } // Set Interface
+		if arg == "-i" { cshield.sys.con.iface = args[i+1] } // Set Interface
 
 		/* Optional IPTables Reset After An Attack */
 		if arg == "-t" { if args[i+1].int() == 1 { cshield.reset = true } }
@@ -60,15 +59,17 @@ fn main()
 		}
 	}
 
+	if "-tui" in args { cshield.ui_mode = true } // UI Mode
+	if "-noreset" in args { cshield.reset = true } // Firewall Reset
+
 	/* Set interface when used */
-	if cshield.iface == "" { cshield.get_interface() } 
-	if cshield.iface == "" { exit(0) }
+	if cshield.sys.con.iface == "" { cshield.get_interface() } 
+	if cshield.sys.con.iface == "" { exit(0) }
 
 	/*
 		Loading Screen 
 
 		Then Run App
 	*/
-
 	cshield.run_protection()
 }

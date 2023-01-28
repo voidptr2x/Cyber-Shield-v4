@@ -46,24 +46,17 @@ pub fn (mut con Connection) get_speed()
 
 pub fn (mut con Connection) get_pps() Connection
 {
-	mut c := Connection{}
-	rx_path := packet_path.replace("{interface}", c.iface).replace("{mode}", "rx")
-	tx_path := packet_path.replace("{interface}", c.iface).replace("{mode}", "tx")
+	rx_path := packet_path.replace("{interface}", con.iface).replace("{mode}", "rx")
+	tx_path := packet_path.replace("{interface}", con.iface).replace("{mode}", "tx")
 
-	c.rx = (os.read_file(rx_path) or { "" }).int()
-	c.tx = (os.read_file(tx_path) or { "" }).int()
+	rx := (os.read_file(rx_path) or { "" }).int()
+	tx := (os.read_file(tx_path) or { "" }).int()
 
 	time.sleep(time.second*1)
 
 	new_rx := (os.read_file(rx_path) or { "" }).int()
 	new_tx := (os.read_file(tx_path) or { "" }).int()
 
-	c.pps = (c.tx - new_tx) - (c.rx - new_rx)
-	return c
-}
-
-pub fn run_pps(c Connection) {
-	for {
-		// con := c.get_pps()
-	}
+	con.pps = (tx - new_tx) - (rx - new_rx)
+	return con
 }

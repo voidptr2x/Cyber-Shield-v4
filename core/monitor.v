@@ -1,13 +1,13 @@
 module core
 
 import os
+import time
 import core.utils as ut
 import core.tools as tl
 
 pub struct CyberShield 
 {
 	pub mut:
-		iface 		string  /* Interface */
 		reset		bool	/* IPTables Reset Toggle */
 		ui_mode		bool	/* Enable CyberShield's TUI */
 		sys 		tl.System
@@ -15,11 +15,11 @@ pub struct CyberShield
 
 pub fn start_session() CyberShield
 {
-	mut cs := CyberShield{sys: tl.System{}}
+	mut cs := CyberShield{sys: tl.System{con: tl.Connection{}, hdw: tl.Hardware{}, os: tl.OS{}}}
 	return cs
 }
 
-pub fn (mut cs CyberShield) set_interface(ifc string) { cs.iface = ifc }
+pub fn (mut cs CyberShield) set_interface(ifc string) { cs.sys.con.iface = ifc }
 pub fn (mut cs CyberShield) set_ui_mode(ui_mode bool)  { cs.ui_mode = ui_mode }
 
 pub fn (mut cs CyberShield) get_interface() 
@@ -33,7 +33,7 @@ pub fn (mut cs CyberShield) get_interface()
 		print("[ X ] Error, Invalid value provided! Exiting....\r\n")
 		exit(0)
 	}
-	cs.iface = interfaces[iface.int()]
+	cs.sys.con.iface = interfaces[iface.int()]
 }
 
 pub fn (mut cs CyberShield) get_all_interfaces() []string 
@@ -53,7 +53,7 @@ pub fn (mut cs CyberShield) run_monitor()
 {
 	print((os.read_file("assets/ui.txt") or {""}))
 	for {
-
+		time.sleep(time.second*1)
 	}
 }
 
@@ -61,6 +61,6 @@ pub fn (mut cs CyberShield) run_protection()
 {
 	if cs.ui_mode { go cs.run_monitor() }
 	for {
-
+		print("PPS: ${cs.sys.con.get_pps().pps}\r\n")
 	}
 }
