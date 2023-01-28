@@ -1,13 +1,15 @@
-# Cyber-Shield v4
- Cyber Shield, Version 4.0 | The Future Of Cyber Of Protection
-
- [Official Website](https://cybershield.shop/)
-
+<div align="center"<
+<h1>Cyber Shield v4.0.0</h1>
+<p>The Future Of Cyber Of Protection</p>
+</div>
+<center>
+[Official Website](https://cybershield.shop/)
+<!-- </center> -->
 Features Of Cyber Shield v4.0
 
-- Optional TUI mode with ``-tui`` flag (NOT_COMPLETED)
+- Optional TUI mode with ``-tui`` flag
 - Reset IPTables After an attack has successfully finished with ``-reset`` flag
-- Disable inbound connection and use whitlisting ``-ball`` flag (NOT_COMPLETED)
+- Disable inbound connection and use whitlisting ``-ball`` flag
 - Block IP Addresses With ``-bip`` flag
 - Whitlist IP Addresses with ``-wip`` flag
 - Default protection monitor with no TUI (no outputs)
