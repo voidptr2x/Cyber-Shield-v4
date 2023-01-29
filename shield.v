@@ -4,26 +4,21 @@ import core as cs
 
 const help = "[ x ] Error, Invalid argument(s) provided
 Usage: ${os.args.clone()[0]} -i <interface> ++
-    Tools              Description
-_____________________________________________
-    -i              Set interface used in monitor
-    -mp             Max PPS you want filtering to start
-                    Flag(s): <interface>
-    -tui            Enable TUI mode
-    -t              Name of theme pack
-    -reset          Enable IPTables Reset After an attack
-    -ball           Block incoming connection access
-    -wip            Whitlist an IP Address
-                    Flag(s): <ip>
-    -bip            Manually block an IP
-    				Flag(s): <ip>
-    -quick          Get quick raw text information.
-       Flag(s):
-        -con        Display connection info
-        -hdw        Display hardware info
-        -os         Display OS info
-
-    -v              Open/View a CyberShield dump file"
+    Tools             Arguments             Description
+_____________________________________________________________________
+    -i               <interface>            Set interface used in monitor
+    -mp               <max_pps>             Max PPS you want filtering to start
+    -tui                 N/A                Enable TUI mode
+    -t               <pack_name>            Name of theme pack
+    -reset               N/A                Enable IPTables Reset After an attack
+    -ball                N/A                Block incoming connection access
+    -wip                 <ip>               Whitlist IP(s)
+    -bip                 <ip>               Block IP(s)
+    -quick               N/A                Get quick raw text information.
+               -con                         Display connection info
+               -hdw                         Display hardware info
+               -os                          Display OS info
+    -v                                      Open/View a CyberShield dump file"
 
 fn main() 
 {
@@ -71,5 +66,6 @@ fn main()
 
 		Then Run App
 	*/
-	cshield.run_protection()
+	mut g := go cs.run_protection(mut &cshield)
+	g.wait()
 }

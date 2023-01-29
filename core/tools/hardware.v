@@ -33,11 +33,11 @@ pub struct Hardware
 pub fn retrieve_hardware() Hardware 
 {
 	mut h := Hardware{}
-	h.retrieve_info()
+	h.update_info()
 	return h
 }
 
-pub fn (mut h Hardware) retrieve_info() Hardware
+pub fn (mut h Hardware) update_info() Hardware
 {
 	h.parse_cpu()
 	h.parse_mem()

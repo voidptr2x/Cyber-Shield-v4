@@ -26,7 +26,7 @@ pub fn (mut con Connection) get_speed()
 	go os.execute("speedtest > result.txt")
 	for _ in 0..30 // check speedtest results for 30 seconds
 	{
-		time.sleep(time.second*1) // LOOP IN SECONDS
+		time.sleep(1*time.second) // LOOP IN SECONDS
 		speed_data := os.read_file("result.txt") or { "" }
 		if speed_data.contains("Upload: ") { // MAKING SURE WE GOT THE LAST LINE SPEEDTEST PROVIDES WHICH MEANS ITS DONE
 			for line in speed_data.split("\n")

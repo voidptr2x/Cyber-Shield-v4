@@ -7,9 +7,9 @@ pub struct Config {
 		theme_pack_path		        string
 		config_path			string
                 text_data                       string
-                text_data                       json2.Any
+                text                            json2.Any
 		ui				string
-		graph   			string
+		graph_layout   			string
 
 		title				string
 		description			string
@@ -38,8 +38,6 @@ pub struct Graph_Display
                 graph_layout_p		        []string
                 graph_p				[]string
                 data_c				[]string
-                attacked_data_c		        []string
-                border_c			[]string
 }
 
 pub struct Conntable_Display

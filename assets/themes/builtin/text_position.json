@@ -9,8 +9,6 @@
         "graph_layout_p": [0, 0],
         "graph_p": [0, 0],
         "data_c": [0, 0, 0],
-        "attacked_data_c": [0, 0, 0],
-        "border_c": [0, 0, 0]
     },
     "Conntable_Display": {
         "display": false,
