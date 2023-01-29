@@ -7,9 +7,11 @@ Usage: ${os.args.clone()[0]} -i <interface> ++
     Tools              Description
 _____________________________________________
     -i              Set interface used in monitor
+    -mp             Max PPS you want filtering to start
                     Flag(s): <interface>
     -tui            Enable TUI mode
-    -noreset        Disable IPTables Reset After an attack
+    -t              Name of theme pack
+    -reset          Enable IPTables Reset After an attack
     -ball           Block incoming connection access
     -wip            Whitlist an IP Address
                     Flag(s): <ip>
@@ -36,10 +38,13 @@ fn main()
 
 	for i, arg in args 
 	{
+		if arg == "-tui" { cshield.ui_mode = true } // UI Mode
+		if arg == "-noreset" { cshield.reset = true } // Firewall Reset
 		if arg == "-i" { cshield.sys.con.iface = args[i+1] } // Set Interface
+		if arg == "-mp" { cshield.sys.con.max_pps = args[i+1].int() }
 
 		/* Optional IPTables Reset After An Attack */
-		if arg == "-t" { if args[i+1].int() == 1 { cshield.reset = true } }
+		if arg == "-t" { cshield.set_theme_pack(args[i+1]) }
 
 		if arg == "-quick" {
 			if "-con" in args[i..] {
@@ -56,9 +61,6 @@ fn main()
 			exit(0)
 		}
 	}
-
-	if "-tui" in args { cshield.ui_mode = true } // UI Mode
-	if "-noreset" in args { cshield.reset = true } // Firewall Reset
 
 	/* Set interface when used */
 	if cshield.sys.con.iface == "" { cshield.get_interface() } 

@@ -12,6 +12,7 @@ pub struct Connection
 		rx			int
 		tx 			int
 
+		max_pps		int
 		pps			int
 		upload		string
 		download	string
@@ -52,7 +53,7 @@ pub fn (mut con Connection) get_pps() Connection
 	rx := (os.read_file(rx_path) or { "" }).int()
 	tx := (os.read_file(tx_path) or { "" }).int()
 
-	time.sleep(time.second*1)
+	time.sleep(1*time.second)
 
 	new_rx := (os.read_file(rx_path) or { "" }).int()
 	new_tx := (os.read_file(tx_path) or { "" }).int()

@@ -11,12 +11,17 @@ pub struct CyberShield
 		reset		bool	/* IPTables Reset Toggle */
 		ui_mode		bool	/* Enable CyberShield's TUI */
 		sys 		tl.System
+		cfg			Config
 }
 
 pub fn start_session() CyberShield
 {
 	mut cs := CyberShield{sys: tl.System{con: tl.Connection{}, hdw: tl.Hardware{}, os: tl.OS{}}}
 	return cs
+}
+
+pub fn (mut cs CyberShield) set_theme_pack(pack_name string) {
+	cs.cfg = Config{theme_pack_path: pack_name}
 }
 
 pub fn (mut cs CyberShield) set_interface(ifc string) { cs.sys.con.iface = ifc }
@@ -51,9 +56,17 @@ pub fn (mut cs CyberShield) get_all_interfaces() []string
 
 pub fn (mut cs CyberShield) run_monitor() 
 {
-	print((os.read_file("assets/ui.txt") or {""}))
+	ut.hide_cursor()
+	print((os.read_file("assets/themes/builtin/ui.txt") or {""}))
+	ut.place_text([13, 9], "PPS: ${cs.sys.con.pps}")
+
 	for {
-		time.sleep(time.second*1)
+
+		ut.place_text([13, 9], "PPS: ${cs.sys.con.pps}")
+
+		time.sleep(1*time.second)
+
+		ut.place_text([13, 9], "        ")
 	}
 }
 
@@ -61,6 +74,9 @@ pub fn (mut cs CyberShield) run_protection()
 {
 	if cs.ui_mode { go cs.run_monitor() }
 	for {
-		print("PPS: ${cs.sys.con.get_pps().pps}\r\n")
+		con := cs.sys.con.get_pps()
+		if cs.sys.con.max_pps > con.pps {
+			// stsart getting information about connections here
+		}
 	}
 }
