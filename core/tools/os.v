@@ -15,9 +15,19 @@ pub struct OS
 		shell		string
 }
 
+pub fn (mut o OS) update_os() 
+{
+	o.parse_os()
+	o.retrieve_kernel()
+	o.retrieve_shell()
+}
+
 pub fn (mut o OS) parse_os()
 {
-	os_info := os.read_file("/etc/os-release") or { "" }
+	os_info := os.read_file("/etc/os-release") or { 
+		print("[!] Error - kOeDSe5R0pz1, Unable to read file....!")
+		exit(0)
+	}
 	for line in os_info.split("\n")
 	{
 		if line.starts_with("NAME=\"") { o.name = line.replace("NAME=\"", "").replace("\"", "") }
@@ -27,7 +37,11 @@ pub fn (mut o OS) parse_os()
 
 pub fn (mut o OS) retrieve_kernel()
 {
-
+	version_file := os.read_file("/proc/version") or {
+		print("[!] Error - uD1DMjcsINIR, Unable to read file....!\n")
+		exit(0)
+	}
+	o.kernel = version_file.split(" ")[2]
 }
 
 pub fn (mut o OS) retrieve_shell()

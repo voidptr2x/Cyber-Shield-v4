@@ -106,9 +106,3 @@ pub struct Connection_Display
         
                 pps_p				[]string
 }
-
-pub fn fetch_config() Config
-{
-	mut c := Config{}
-	return c
-}

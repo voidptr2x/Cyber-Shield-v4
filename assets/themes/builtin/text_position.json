@@ -8,7 +8,7 @@
         "display": true,
         "graph_layout_p": [0, 0],
         "graph_p": [0, 0],
-        "data_c": [0, 0, 0],
+        "data_c": [0, 0, 0]
     },
     "Conntable_Display": {
         "display": false,
@@ -21,18 +21,18 @@
         "labels_c": [0, 0, 0],
         "value_c": [0, 0, 0],
         
-        "os_name_p": [0, 0],
-        "os_version_p": [0, 0],
-        "os_kernel_p": [0, 0],
-        "shell_p": [0, 0]
+        "os_name_p": [15, 8],
+        "os_version_p": [16, 16],
+        "os_kernel_p": [17, 12],
+        "shell_p": [18, 11]
     },
     "Hardware_Display": {
         "display": true,
         "labels_c": [0, 0, 0],
         "value_c": [0, 0, 0],
 
+        "cpu_name_p": [24, 9],
         "cpu_count_p": [0, 0],
-        "cpu_name_p": [0, 0],
         "cpu_cores_p": [0, 0],
         "cpu_usage_p": [0, 0],
         "cpu_freq_p": [0, 0],
@@ -64,6 +64,6 @@
         "upload_speed_p": [0, 0],
         "nload_stats_p": [0, 0],
         
-        "pps_p": [0, 0]
+        "pps_p": [6, 89]
     }
 }

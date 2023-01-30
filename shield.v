@@ -14,11 +14,11 @@ _____________________________________________________________________
     -ball                N/A                Block incoming connection access
     -wip                 <ip>               Whitlist IP(s)
     -bip                 <ip>               Block IP(s)
-    -quick               N/A                Get quick raw text information.
+    -quick               <ip>               Get quick raw text information.
                -con                         Display connection info
                -hdw                         Display hardware info
                -os                          Display OS info
-    -v                                      Open/View a CyberShield dump file"
+    -v                  <file>              Open/View a CyberShield dump file"
 
 fn main() 
 {
