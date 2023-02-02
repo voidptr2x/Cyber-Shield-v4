@@ -8,3 +8,9 @@ pub struct System
 		hdw			Hardware
 		ui_mode		bool
 }
+
+pub fn (mut s System) pull_all_info() 
+{
+	s.os.update_os()
+	s.hdw.update_hdw()
+}

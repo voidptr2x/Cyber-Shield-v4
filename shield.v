@@ -66,6 +66,5 @@ fn main()
 
 		Then Run App
 	*/
-	mut g := go cs.run_protection(mut &cshield)
-	g.wait()
+	cs.run_protection(mut &cshield)
 }

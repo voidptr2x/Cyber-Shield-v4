@@ -1,11 +1,13 @@
 module utils
 
+import time
+
 pub fn set_term_size(h int, w int) {
 	print("\x1b[8;${h};${w}t")
 }
 
-pub fn move_cursor() {
-	print("\n")
+pub fn move_cursor(r int, c int) {
+	print("\033[${r};${c}f")
 }
 
 pub fn clear_screen() {
@@ -31,7 +33,7 @@ pub fn place_color_text(p []int, c []int, t string) {
 pub fn list_text(p []int, t string) {
 	mut row := p[0]
 	for line in t.split("\n") {
-		place_text([row, p[1]], line)
+		print("\x1b[${row};${p[1]}f${line}")
 		row++
 	}
 }
