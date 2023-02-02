@@ -12,6 +12,7 @@ pub struct Connection
 		rx			int
 		tx 			int
 
+		system_ip	string
 		max_pps		int
 		pps			int
 		upload		string
@@ -33,14 +34,12 @@ pub fn (mut con Connection) get_speed()
 			{
 				if line.starts_with("Download: ") {
 					c.download = line.replace("Download:", "").trim_space()
-					print("Download Speed Updated: ${c.download}\r\n")
 				} else if line.starts_with("Upload: ") {
 					c.upload = line.replace("Upload:", "").trim_space()
-					print("Upload Speed Updated: ${c.upload}\r\n")
 				}
 			}
 			os.execute("rm -rf result.txt")
-			return // NO NEED TO CONTINUE THE LOOP
+			return// NO NEED TO CONTINUE THE LOOP
 		}
 	}
 }

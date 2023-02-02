@@ -4,6 +4,9 @@ import os
 import x.json2 as j
 
 pub const COLOR_CODES = {
+	'{Bold}': '\x1b[1m',
+	'{Reset_Term}': '\x1b[0m',
+	'{Reset_Bold}': '\x1b[21m',
 	'{Default}': '\x1b[39m',
 	'{Black}': '\x1b[30m',
 	'{Red}': '\x1b[31m',
@@ -30,8 +33,8 @@ pub const COLOR_CODES = {
 	'{Blue_BG}': '\x1b[44m',
 	'{Purple_BG}': '\x1b[45m',
 	'{Cyan_BG}': '\x1b[46m',
-	'{Light_Gray_BG}': '\x1b[47m',
-	'{Dark_Gray_BG}': '\x1b[100m',
+	'{Light_Grey_BG}': '\x1b[47m',
+	'{Dark_Grey_BG}': '\x1b[100m',
 	'{Light_Red_BG}': '\x1b[101m',
 	'{Light_Green_BG}': '\x1b[102m',
 	'{Light_Yellow_BG}': '\x1b[103m',
@@ -55,6 +58,9 @@ pub fn retrieve_theme_pack(theme_pack string) Config
 		print("[x] Error - 3okOha8zBxpm, Unable to locate or read ${c.theme_pack_path}ui.txt")
 		exit(0)
 	}
+
+	c.ui = c.replace_color_code(c.ui)
+
 	c.text = j.raw_decode(file_data) or { return c }
 	c.graph_layout = os.read_file("${c.theme_pack_path}graph.txt") or { 
 		print("[x] Error - UNDBUIasjszw, Unable to locate or read ${c.theme_pack_path}graph.txt")

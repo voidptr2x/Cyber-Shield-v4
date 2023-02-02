@@ -1,5 +1,7 @@
 import os
 
+import vweb
+import core.web as w
 import core as cs
 
 const help = "[ x ] Error, Invalid argument(s) provided
@@ -10,6 +12,7 @@ _____________________________________________________________________
     -mp               <max_pps>             Max PPS you want filtering to start
     -tui                 N/A                Enable TUI mode
     -t               <pack_name>            Name of theme pack
+    -web                <port>              Enable web server for info API etc
     -reset               N/A                Enable IPTables Reset After an attack
     -ball                N/A                Block incoming connection access
     -wip                 <ip>               Whitlist IP(s)
@@ -24,6 +27,7 @@ fn main()
 {
 	mut cshield := cs.start_session()
 	args := os.args.clone()
+	mut web_port := 0 
 
 	if "-h" in args
 	{
@@ -37,6 +41,7 @@ fn main()
 		if arg == "-noreset" { cshield.reset = true } // Firewall Reset
 		if arg == "-i" { cshield.sys.con.iface = args[i+1] } // Set Interface
 		if arg == "-mp" { cshield.sys.con.max_pps = args[i+1].int() }
+		if arg == "-web" { web_port = args[i+1].int() }
 
 		/* Optional IPTables Reset After An Attack */
 		if arg == "-t" { cshield.set_theme_pack(args[i+1]) }
@@ -66,5 +71,6 @@ fn main()
 
 		Then Run App
 	*/
-	cs.run_protection(mut &cshield)
+	go cs.run_protection(mut &cshield)
+	vweb.run(&w.App{sys_info: &cshield}, web_port)
 }

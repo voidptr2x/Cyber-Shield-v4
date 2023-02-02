@@ -6,8 +6,8 @@
     },
     "Graph_Display": {
         "display": true,
-        "graph_layout_p": [11, 33],
-        "graph_p": [0, 0],
+        "graph_layout_p": [11, 32],
+        "graph_p": [11, 39],
         "data_c": [0, 0, 0]
     },
     "Conntable_Display": {
@@ -38,31 +38,30 @@
         "cpu_arch_p": [0, 0],
 
         "memory_type_p": [0, 0],
-        "memory_capacity_p": [26, 21],
-        "memory_used_p": [27, 17],
-        "memory_free_p": [28, 17],
-        "memory_usage_p": [29, 18],
+        "memory_capacity_p": [31, 21],
+        "memory_used_p": [32, 17],
+        "memory_free_p": [33, 17],
+        "memory_usage_p": [34, 18],
 
         "hdd_name_p": [0, 0],
-        "hdd_capacity_p": [31, 14],
-        "hdd_used_p": [32, 14],
-        "hdd_free_p": [33, 15],
+        "hdd_capacity_p": [0, 0],
+        "hdd_used_p": [0, 0],
+        "hdd_free_p": [0, 0],
         "hdd_usage_p": [0, 0]
     },
     "Connection_Display": {
         "display": true,
         "labels_c": [0, 0, 0],
         "value_c": [0, 0, 0],
-        "system_ip_p": [0, 0],
+        "system_ip_p": [6, 69],
         "socket_ip_p": [0 ,0],
         "socket_port_p": [0, 0],
 
-        "wifi_adapter_p": [0, 0],
         "ms_p": [0, 0],
-        "download_speed_p": [0, 0],
-        "upload_speed_p": [0, 0],
+        "download_speed_p": [8, 61],
+        "upload_speed_p": [7, 59],
         "nload_stats_p": [0, 0],
         
-        "pps_p": [6, 89]
+        "pps_p": [6, 86]
     }
 }
