@@ -20,6 +20,10 @@ pub struct Connection
 		ms			int
 }
 
+pub fn (mut con Connection) get_system_ip() {
+	
+}
+
 
 pub fn (mut con Connection) get_speed()
 {

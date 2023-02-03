@@ -1,9 +1,5 @@
-
-pps.v
 shield
 *.zip
 shield
-core/tui/parser
 t.c
 a.out
-*.v
