@@ -59,7 +59,7 @@ pub fn retrieve_theme_pack(theme_pack string) Config
 		exit(0)
 	}
 
-	c.ui = c.replace_color_code(c.ui)
+	// c.ui = c.replace_color_code(c.ui)
 
 	c.text = j.raw_decode(file_data) or { return c }
 	c.graph_layout = os.read_file("${c.theme_pack_path}graph.txt") or { 

@@ -2,6 +2,7 @@ module tools
 
 import os
 import time
+import net.http as web
 
 const packet_path = "/sys/class/net/{interface}/statistics/{mode}_packets"
 
@@ -20,8 +21,42 @@ pub struct Connection
 		ms			int
 }
 
+
+/*
+
+    def get_sys_ip(self) -> str:
+        ip_a = subprocess.getoutput("ip a")
+        sys_ip = ""
+        iface_found = False
+        
+        for line in ip_a.split("\n"):
+                if self.interface in line: iface_found = True
+                if iface_found:
+                        if line.strip().startswith('inet '):
+                                sys_ip = line.strip().split(" ")[1].split("/")[0]
+                                break
+        if sys_ip: return sys_ip
+        return requests.get("https://api.ipify.org").text
+*/
 pub fn (mut con Connection) get_system_ip() {
-	
+	ip_a := os.execute("ip a").output
+	mut sys_ip := ""
+	mut iface_found := false 
+
+	for line in ip_a.split("\n")
+	{
+		if line.contains(con.iface) { iface_found = true }
+		if iface_found 
+		{
+			if line.trim_space().starts_with("inet ")
+			{
+				sys_ip = line.trim_space().split(" ")[1].split("/")[0]
+				break
+			}
+		}
+	}
+	if sys_ip != "" { con.system_ip = sys_ip }
+	con.system_ip = web.get_text("https://api.ipify.org")
 }
 
 
@@ -31,7 +66,7 @@ pub fn (mut con Connection) get_speed()
 	go os.execute("speedtest > result.txt")
 	for _ in 0..30 // check speedtest results for 30 seconds
 	{
-		time.sleep(1*time.second) // LOOP IN SECONDS
+		time.sleep(500*time.millisecond) // LOOP IN SECONDS
 		speed_data := os.read_file("result.txt") or { "" }
 		if speed_data.contains("Upload: ") { // MAKING SURE WE GOT THE LAST LINE SPEEDTEST PROVIDES WHICH MEANS ITS DONE
 			for line in speed_data.split("\n")

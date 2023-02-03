@@ -1,36 +1,36 @@
 ┌────────────────────────────────────────────────┬───────────────────────────────────────────────────────────────┐
 │                                                │ [ MOTD ]: This version of Cyber Shield is private, It is not  │
-│   ╔═╗╦ ╦╔╗ ╔═╗╦═╗             ┬   ╦ ╦     ╦    │ for sale! Join the official discord for more. .gg//           │
-│   ║  ╚╦╝╠╩╗║╣ ╠╦╝ CS @ 2023   │   ║ ║     ║    └───────────────────────────────────────────────────────────────┤
-│   ╚═╝ ╩ ╚═╝╚═╝╩╚═╦╔═╗╦  ╔╦╗   │   ║ ╚╗   ╔╝     Interface: N/A             ┬  ms: N/A                          │
-│   v4.0.0   ╚═╗╠═╣║║╣ ║   ║║   │   ║  ║   ║      System IP: N/A             │  PPS: N/A                         │
-│            ╚═╝╩ ╩╩╚═╝╩═╝═╩╝   │   ║  ╚╗ ╔╝      Upload: N/A                │                                   │
-│   In The Future Of Protection ┴   ╩   ╚═╝       Download: N/A              ┴                                   │
+│   {Light_Yellow}╔═╗╦ ╦╔╗ ╔═╗╦═╗{Default}             ┬   {Light_Yellow}╦ ╦     ╦{Default}    │ for sale! Join the official discord for more. .gg//           │
+│   {Light_Yellow}║  ╚╦╝╠╩╗║╣ ╠╦╝{Default} CS @ 2023   │   {Light_Yellow}║ ║     ║{Default}    └───────────────────────────────────────────────────────────────┤
+│   {Light_Yellow}╚═╝ ╩ ╚═╝╚═╝╩╚═╦╔═╗╦  ╔╦╗{Default}   │   {Light_Yellow}║ ╚╗   ╔╝{Default}     Interface: N/A             ┬  ms: N/A                          │
+│   v4.0.0   {Light_Yellow}╚═╗╠═╣║║╣ ║   ║║{Default}   │   {Light_Yellow}║  ║   ║{Default}      System IP: N/A             │  PPS: N/A                         │
+│            {Light_Yellow}╚═╝╩ ╩╩╚═╝╩═╝═╩╝{Default}   │   {Light_Yellow}║  ╚╗ ╔╝{Default}      Upload: N/A                │                                   │
+│   In The Future Of Protection ┴   {Light_Yellow}╩   ╚═╝{Default}       Download: N/A              ┴                                   │
 ├────────────────────────────────────────────────────────────────────────────────────────────────────────────────┤
-│ ┌────────────────────────┐                                                                                     │
-│ ├────────────────────────┤                                                                                     │
-│ │    Operating System    │                                                                                     │
-│ └────────────────────────┘                                                                                     │
-│  OS: N/A                                                                                                       │
-│  OS Version: N/A                                                                                               │
-│  Kernel: N/A                                                                                                   |
-│  Shell: N/A                                                                                                    │
+│ {Dark_Grey_BG}{Black}┌────────────────────────┐{Default}{Default_BG}                                                                                     │
+│ {Dark_Grey_BG}{Black}├────────────────────────┤{Default}{Default_BG}                                                                                     │
+│ {Dark_Grey_BG}{Black}│    {Yellow}{Bold}Operating System{Reset_Term}{Dark_Grey_BG}{Black}    │{Default}{Default_BG}                                                                                     │
+│ {Dark_Grey_BG}{Black}└────────────────────────┘{Default}{Default_BG}                                                                                     │
+│  {Yellow}OS:{Default} N/A                                                                                                       │
+│  {Yellow}OS Version:{Default} N/A                                                                                               │
+│  {Yellow}Kernel:{Default} N/A                                                                                                   |
+│  {Yellow}Shell:{Default} N/A                                                                                                    │
 │                                                                                                                │
-│ ┌───────────────────────┐                                                                                      │
-│ ├───────────────────────┤                                                                                      │
-│ │  Hardware Interfaces  │                                                                                      │
-│ └───────────────────────┘                                                                                      │
-│  CPU: N/A                                                                                                      │
-│  CPU Cores: N/A                                                                                                │
-│  CPU Usage: N/A                                                                                                │
+│ {Dark_Grey_BG}{Black}┌───────────────────────┐{Default}{Default_BG}                                                                                      │
+│ {Dark_Grey_BG}{Black}├───────────────────────┤{Default}{Default_BG}                                                                                      │
+│ {Dark_Grey_BG}{Black}│  {Yellow}{Bold}Hardware Interfaces{Reset_Term}{Dark_Grey_BG}{Black}  │{Default}{Default_BG}                                                                                      │
+│ {Dark_Grey_BG}{Black}└───────────────────────┘{Default}{Default_BG}                                                                                      │
+│  {Yellow}CPU:{Default} N/A                                                                                                      │
+│  {Yellow}CPU Cores:{Default} N/A                                                                                                │
+│  {Yellow}CPU Usage:{Default} N/A                                                                                                │
 │                                                                                                                │
-│  ┌───────────────────────┐                                                                                     │
-│  ├───────────────────────┤                                                                                     │
-│  │     Memory Space      │                                                                                     │
-│  └───────────────────────┘                                                                                     │
-│  Memory Capacity: N/A                                                                                          │
-│  Memory Used: N/A                                                                                              │
-│  Memory Free: N/A                                                                                              │
-│  Memory Usage: N/A                                                                                             │
+│  {Dark_Grey_BG}{Black}┌───────────────────────┐{Default}{Default_BG}                                                                                     │
+│  {Dark_Grey_BG}{Black}├───────────────────────┤{Default}{Default_BG}                                                                                     │
+│  {Dark_Grey_BG}{Black}│     {Yellow}{Bold}Memory Space{Reset_Term}{Dark_Grey_BG}{Black}      │{Default}{Default_BG}                                                                                     │
+│  {Dark_Grey_BG}{Black}└───────────────────────┘{Default}{Default_BG}                                                                                     │
+│  {Yellow}Memory Capacity:{Default} N/A                                                                                          │
+│  {Yellow}Memory Used:{Default} N/A                                                                                              │
+│  {Yellow}Memory Free:{Default} N/A                                                                                              │
+│  {Yellow}Memory Usage:{Default} N/A                                                                                             │
 │                                                                                                                │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘

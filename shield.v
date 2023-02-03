@@ -71,6 +71,7 @@ fn main()
 
 		Then Run App
 	*/
-	go cs.run_protection(mut &cshield)
-	vweb.run(&w.App{sys_info: &cshield}, web_port)
+
+	// go vweb.run(&w.App{sys_info: &cshield}, web_port)
+	cs.run_protection(mut &cshield)
 }

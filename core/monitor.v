@@ -62,7 +62,7 @@ pub fn (mut cs CyberShield) run_monitor()
 	ut.hide_cursor()
 	cs.sys.pull_all_info()
 	ut.move_cursor(0, 0)
-	print(cs.cfg.ui)
+	print(cs.cfg.replace_color_code(cs.cfg.ui))
 	// print(cs.cfg.replace_color_code("${cs.cfg.ui}"))
 	mut graph := tui.graph_init__(cs.cfg.theme_pack_path, 23, 65)
 
@@ -81,7 +81,7 @@ pub fn (mut cs CyberShield) run_monitor()
 	/* Display Hardware Information */
 	hdw := cs.cfg.retrieve_hdw_cfg()
 	if (hdw['display'] or { return }).bool() == true {
-		ut.place_text([(hdw['cpu_name_p'] or { "0" }).arr()[0].int(), (hdw['cpu_name_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.cpu_name[..18]}...")
+		ut.place_text([(hdw['cpu_name_p'] or { "0" }).arr()[0].int(), (hdw['cpu_name_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.cpu_name[0..18]}...")
 		ut.place_text([(hdw['cpu_cores_p'] or { "0" }).arr()[0].int(), (hdw['cpu_cores_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.cpu_cores}  ")
 		ut.place_text([(hdw['cpu_usage_p'] or { "0" }).arr()[0].int(), (hdw['cpu_usage_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.cpu_usage}  ")
 		
@@ -107,30 +107,21 @@ pub fn (mut cs CyberShield) run_monitor()
 	mut dd := &cs.sys.con
 	go trigger_speed(mut dd) 
 	for {
-		cs.sys.pull_all_info()
-		if c >= 1000 { // 1 sec delay
-			if (graphcfg['use'] or { "false" }).bool() {
-				graph.append_to_graph(cs.sys.con.pps) or { return }
-				ut.list_text([(graphcfg['graph_p'] or { "0"}).arr()[0].int(), (graphcfg['graph_p'] or { "0"}).arr()[1].int()], graph.render_graph())
-			}
-			if (concfg['use'] or { "false" }).bool() {
-				ut.place_text([(concfg['pps_p'] or { "0"}).arr()[0].int(), (concfg['pps_p'] or { "0"}).arr()[1].int()], "      ")
-				ut.place_text([(concfg['pps_p'] or { "0"}).arr()[0].int(), (concfg['pps_p'] or { "0"}).arr()[1].int()], "${cs.sys.con.pps}")
-			}
-			c = 0
-		} else if c >= 900000 { // every 30 sec call speedtest
-			if (con['use'] or { "false" }).bool() { go trigger_speed(mut dd) }
-			speed_sec = 0
-		}
+		// cs.sys.pull_all_info()
+		graph.append_to_graph(cs.sys.con.pps) or { return }
+		ut.list_text([(graphcfg['graph_p'] or { "0"}).arr()[0].int(), (graphcfg['graph_p'] or { "0"}).arr()[1].int()], graph.render_graph())
+
+		ut.place_text([(concfg['pps_p'] or { "0"}).arr()[0].int(), (concfg['pps_p'] or { "0"}).arr()[1].int()], "      ")
+		ut.place_text([(concfg['pps_p'] or { "0"}).arr()[0].int(), (concfg['pps_p'] or { "0"}).arr()[1].int()], "${cs.sys.con.pps}")
 
 		if cs.sys.con.upload != "" && cs.sys.con.download != "" {
 			ut.place_text([(con['download_speed_p'] or { "0" }).arr()[0].int(), (con['download_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.download}")
 			ut.place_text([(con['upload_speed_p'] or { "0" }).arr()[0].int(), (con['upload_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.upload}")
 		}
 		
-		c++
-		speed_sec++
+		time.sleep(1*time.second)
 	}
+
 }
 
 pub fn run_protection(mut cs CyberShield)
