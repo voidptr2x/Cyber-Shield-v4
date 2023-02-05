@@ -97,6 +97,15 @@ pub fn (mut c Config) retrieve_conn_cfg() map[string]j.Any
 	return (j.raw_decode("${con_d}") or { return map[string]j.Any{} }).as_map()
 }
 
+pub fn (mut c Config) retrieve_term_cfg() map[string]j.Any
+{
+	con_d := c.text.as_map()['Terminal'] or {
+		print("[!] Error - X3pm0slbVA55, Missing 'Terminal' structure in JSON file....!")
+		exit(0)
+	}
+	return (j.raw_decode("${con_d}") or { return map[string]j.Any{} }).as_map()
+}
+
 pub fn (mut c Config) replace_color_code(text string) string
 {
 	mut new := text

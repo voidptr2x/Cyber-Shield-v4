@@ -1,6 +1,6 @@
 {
     "Terminal": {
-        "size": [35, 113],
+        "size": [36, 116],
         "title": "",
         "motd": ""
     },
@@ -53,6 +53,7 @@
         "display": true,
         "labels_c": [0, 0, 0],
         "value_c": [0, 0, 0],
+        "interface_p": [5, 62],
         "system_ip_p": [6, 62],
         "socket_ip_p": [0 ,0],
         "socket_port_p": [0, 0],

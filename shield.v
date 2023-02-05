@@ -1,13 +1,17 @@
 import os
 
+import time
 import vweb
-import core.web as w
 import core as cs
+import core.tui as t
+import core.app_auth
+import core.web as w
 
 const help = "[ x ] Error, Invalid argument(s) provided
 Usage: ${os.args.clone()[0]} -i <interface> ++
     Tools             Arguments             Description
 _____________________________________________________________________
+    -l               <licenseID>            Provide a license ID to use this application
     -i               <interface>            Set interface used in monitor
     -mp               <max_pps>             Max PPS you want filtering to start
     -tui                 N/A                Enable TUI mode
@@ -25,7 +29,6 @@ _____________________________________________________________________
 
 fn main() 
 {
-	mut cshield := cs.start_session()
 	args := os.args.clone()
 	mut web_port := 0 
 
@@ -34,6 +37,30 @@ fn main()
 		print("${help}\r\n")
 		exit(0)
 	}
+
+	if args.len < 4 {
+		print("[!] Error - LsXr45QHtlFB, Invalid arguments provided\r\nUsage: ${args[0]} -l <license_id> -i <interface>\r\n")
+		exit(0)
+	}
+
+	mut lic := app_auth.LicenseID{id: args[2]}
+	go app_auth.connect_to_backend(mut &lic)
+	d := ["/", "|", "\\", "-"]
+	mut c := 0
+	for timer in 0..30 {
+		if lic.tui_status == true { break }
+
+		// print("Loading${d[c]}\r")
+		if c == d.len { c = 0}
+		c++
+		if timer == 20 {
+			print("[!] Error, Unable to reach Cyber Shield server....!\n")
+			exit(0)
+		}
+
+		time.sleep(1*time.second)
+	}
+	mut cshield := cs.start_session(mut lic)
 
 	for i, arg in args 
 	{
@@ -48,7 +75,8 @@ fn main()
 
 		if arg == "-quick" {
 			if "-con" in args[i..] {
-				// quick raw text function needed to be called here
+				cshield.sys.con.get_speed()
+				print(cshield.sys.con.download)
 			}
 
 			if "-hdw" in args[i..] {
@@ -72,6 +100,6 @@ fn main()
 		Then Run App
 	*/
 
-	// go vweb.run(&w.App{sys_info: &cshield}, web_port)
+	if web_port != 0 { go vweb.run(&w.App{sys_info: &cshield}, web_port) }
 	cs.run_protection(mut &cshield)
 }

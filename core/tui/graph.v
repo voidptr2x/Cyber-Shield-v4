@@ -12,29 +12,29 @@ pub struct Graph
     	graph_heigth        int
     	num                 int
     	graph_data	    	[]string = [
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.',
-			'.'
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' ',
+			' '
 		]
 }
 
@@ -75,7 +75,7 @@ pub fn (mut g Graph) append_to_graph(data int)!
         if g.graph_data[i].len >= g.graph_width { g.graph_data[i] = g.graph_data[i][1..g.graph_width] }
 
         if i >= (g.graph_heigth - new_data) { g.graph_data[i] += "#" } 
-        else { g.graph_data[i] += "." }
+        else { g.graph_data[i] += " " }
     }
 }
 

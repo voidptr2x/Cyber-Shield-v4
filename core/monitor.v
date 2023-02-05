@@ -3,6 +3,7 @@ module core
 import os
 import time
 import core.tui
+import core.app_auth
 import core.utils as ut
 import core.tools as tl
 
@@ -14,11 +15,12 @@ pub struct CyberShield
 		tick		int
 		sys 		tl.System
 		cfg			tui.Config
+		cs_server	app_auth.LicenseID
 }
 
-pub fn start_session() CyberShield
+pub fn start_session(mut lic app_auth.LicenseID) CyberShield
 {
-	mut cs := CyberShield{sys: tl.System{con: tl.Connection{}, hdw: tl.Hardware{}, os: tl.OS{}}}
+	mut cs := CyberShield{sys: tl.System{con: tl.Connection{}, hdw: tl.Hardware{}, os: tl.OS{}}, cs_server: lic}
 	return cs
 }
 
@@ -58,6 +60,12 @@ pub fn (mut cs CyberShield) get_all_interfaces() []string
 
 pub fn (mut cs CyberShield) run_monitor() 
 {
+	if cs.cs_server.tui_status == false { 
+		print("[!] Error, You are not able to use this feature. Message owner for details...\n")
+		return 
+	}
+	mut sz := cs.cfg.retrieve_term_cfg()
+	tui.set_term_size(sz['size'].arr()[0].int(), sz['size'].arr()[1].int())
 	ut.clear_screen()
 	ut.hide_cursor()
 	cs.sys.pull_all_info()
@@ -98,23 +106,24 @@ pub fn (mut cs CyberShield) run_monitor()
 
 
 	con := cs.cfg.retrieve_conn_cfg()
+	ut.place_text([(con['interface_p'] or { "0" }).arr()[0].int(), (con['interface_'] or { "0" }).arr()[1].int()], "${cs.sys.con.iface}")
 	ut.place_text([(con['system_ip_p'] or { "0" }).arr()[0].int(), (con['system_ip_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.system_ip}")
 
-	mut c := 0
-	mut speed_sec := 0
 	concfg := cs.cfg.retrieve_conn_cfg()
 	graphcfg := cs.cfg.retrieve_graph_cfg()
-	mut dd := &cs.sys.con
-	go trigger_speed(mut dd) 
+	go trigger_speed(mut &cs.sys.con)
 	for {
+		if (hdw['display'] or { return }).bool() == true {
+			ut.place_text([(hdw['memory_usage_p'] or { "0" }).arr()[0].int(), (hdw['memory_usage_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.memory_used}/${cs.sys.hdw.memory_capacity} GB")
+		}
 		// cs.sys.pull_all_info()
-		graph.append_to_graph(cs.sys.con.pps) or { return }
-		ut.list_text([(graphcfg['graph_p'] or { "0"}).arr()[0].int(), (graphcfg['graph_p'] or { "0"}).arr()[1].int()], graph.render_graph())
+		graph.append_to_graph(cs.sys.con.pps) or { return } 
+		ut.list_text([(graphcfg['graph_p'] or { "0"}).arr()[0].int(), (graphcfg['graph_p'] or { "0"}).arr()[1].int()], cs.cfg.replace_color_code(graph.render_graph().replace("#", "{Light_Blue}#{Reset_Term}")))
 
 		ut.place_text([(concfg['pps_p'] or { "0"}).arr()[0].int(), (concfg['pps_p'] or { "0"}).arr()[1].int()], "      ")
 		ut.place_text([(concfg['pps_p'] or { "0"}).arr()[0].int(), (concfg['pps_p'] or { "0"}).arr()[1].int()], "${cs.sys.con.pps}")
 
-		if cs.sys.con.upload != "" && cs.sys.con.download != "" {
+		if cs.sys.con.upload != "" || cs.sys.con.download != "" {
 			ut.place_text([(con['download_speed_p'] or { "0" }).arr()[0].int(), (con['download_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.download}")
 			ut.place_text([(con['upload_speed_p'] or { "0" }).arr()[0].int(), (con['upload_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.upload}")
 		}

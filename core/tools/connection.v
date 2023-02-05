@@ -62,19 +62,18 @@ pub fn (mut con Connection) get_system_ip() {
 
 pub fn (mut con Connection) get_speed()
 {
-	mut c := Connection{}
 	go os.execute("speedtest > result.txt")
 	for _ in 0..30 // check speedtest results for 30 seconds
 	{
-		time.sleep(500*time.millisecond) // LOOP IN SECONDS
+		time.sleep(1*time.second) // LOOP IN SECONDS
 		speed_data := os.read_file("result.txt") or { "" }
 		if speed_data.contains("Upload: ") { // MAKING SURE WE GOT THE LAST LINE SPEEDTEST PROVIDES WHICH MEANS ITS DONE
 			for line in speed_data.split("\n")
 			{
 				if line.starts_with("Download: ") {
-					c.download = line.replace("Download:", "").trim_space()
+					con.download = line.replace("Download:", "").trim_space()
 				} else if line.starts_with("Upload: ") {
-					c.upload = line.replace("Upload:", "").trim_space()
+					con.upload = line.replace("Upload:", "").trim_space()
 				}
 			}
 			os.execute("rm -rf result.txt")
