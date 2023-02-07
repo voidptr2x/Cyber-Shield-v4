@@ -1,7 +1,6 @@
 module tui
 
 import os
-import time
 
 pub struct Graph
 {

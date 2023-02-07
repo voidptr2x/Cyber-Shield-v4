@@ -1,7 +1,5 @@
 module utils
 
-import time
-
 pub fn set_term_size(h int, w int) {
 	print("\x1b[8;${h};${w}t")
 }

@@ -64,39 +64,49 @@ pub fn (mut cs CyberShield) run_monitor()
 		print("[!] Error, You are not able to use this feature. Message owner for details...\n")
 		return 
 	}
-	mut sz := cs.cfg.retrieve_term_cfg()
-	tui.set_term_size(sz['size'].arr()[0].int(), sz['size'].arr()[1].int())
+
 	ut.clear_screen()
 	ut.hide_cursor()
 	cs.sys.pull_all_info()
 	ut.move_cursor(0, 0)
+
+	/* Display main UI and Set up Graph Size */
 	print(cs.cfg.replace_color_code(cs.cfg.ui))
-	// print(cs.cfg.replace_color_code("${cs.cfg.ui}"))
 	mut graph := tui.graph_init__(cs.cfg.theme_pack_path, 23, 65)
 
-	con_info := cs.cfg.retrieve_graph_cfg()
-		ut.list_text([(con_info['graph_layout_p'] or { "0" }).arr()[0].int(), (con_info['graph_layout_p'] or { "0" }).arr()[1].int()], "${graph.graph_layout()}")
-
-	/* Display OS Information */ 
+	/* Call all screen configuration information */
+	graphcfg := cs.cfg.retrieve_graph_cfg()
 	os_info := cs.cfg.retrieve_os_cfg()
+	hdw := cs.cfg.retrieve_hdw_cfg()
+	con := cs.cfg.retrieve_conn_cfg()
+	sz := cs.cfg.retrieve_term_cfg()
+
+	/* Set Terminal Size */
+	ut.set_term_size((sz['size'] or { 0 }).arr()[0].int(), (sz['size'] or { 0 }).arr()[1].int())
+
+	/* Display Graph Layout*/
+	if (graphcfg['display'] or { panic("[!] Error, Graph Display boolean")}).bool() == true {
+		ut.list_text([(graphcfg['graph_layout_p'] or { panic("[!] Error, Graph layout position") }).arr()[0].int(), (con['graph_layout_p'] or { panic("[!] Error, Graph layout position") }).arr()[1].int()], "${graph.graph_layout()}")
+	}
+
+	/* Display OS Information */
 	if (os_info['display'] or { return }).bool() == true {
-		ut.place_text([(os_info['os_name_p'] or { "0" }).arr()[0].int(), (os_info['os_name_p'] or { "0" }).arr()[1].int()], "${cs.sys.os.name}")
-		ut.place_text([(os_info['os_version_p'] or { "0" }).arr()[0].int(), (os_info['os_version_p'] or { "0" }).arr()[1].int()], "${cs.sys.os.version}")
-		ut.place_text([(os_info['os_kernel_p'] or { "0" }).arr()[0].int(), (os_info['os_kernel_p'] or { "0" }).arr()[1].int()], "${cs.sys.os.kernel}")
-		ut.place_text([(os_info['shell_p'] or { "0" }).arr()[0].int(), (os_info['shell_p'] or { "0" }).arr()[1].int()], "${cs.sys.os.shell}")
+		ut.place_text([(os_info['os_name_p'] or { panic("[!] Error, OS name position") }).arr()[0].int(), (os_info['os_name_p'] or { panic("[!] Error, OS name position") }).arr()[1].int()], "${cs.sys.os.name}")
+		ut.place_text([(os_info['os_version_p'] or { panic("[!] Error, OS version position") }).arr()[0].int(), (os_info['os_version_p'] or { panic("[!] Error, OS version position") }).arr()[1].int()], "${cs.sys.os.version}")
+		ut.place_text([(os_info['os_kernel_p'] or { panic("[!] Error, OS kernel position") }).arr()[0].int(), (os_info['os_kernel_p'] or { panic("[!] Error, OS kernel position") }).arr()[1].int()], "${cs.sys.os.kernel}")
+		ut.place_text([(os_info['shell_p'] or { panic("[!] Error, Shell position") }).arr()[0].int(), (os_info['shell_p'] or { panic("[!] Error, Shell position") }).arr()[1].int()], "${cs.sys.os.shell}")
 	}
 
 	/* Display Hardware Information */
-	hdw := cs.cfg.retrieve_hdw_cfg()
 	if (hdw['display'] or { return }).bool() == true {
-		ut.place_text([(hdw['cpu_name_p'] or { "0" }).arr()[0].int(), (hdw['cpu_name_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.cpu_name[0..18]}...")
-		ut.place_text([(hdw['cpu_cores_p'] or { "0" }).arr()[0].int(), (hdw['cpu_cores_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.cpu_cores}  ")
-		ut.place_text([(hdw['cpu_usage_p'] or { "0" }).arr()[0].int(), (hdw['cpu_usage_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.cpu_usage}  ")
+		ut.place_text([(hdw['cpu_name_p'] or { panic("[!] Error, CPU name position") }).arr()[0].int(), (hdw['cpu_name_p'] or { panic("[!] Error, CPU name position") }).arr()[1].int()], "${cs.sys.hdw.cpu_name[0..18]}...")
+		ut.place_text([(hdw['cpu_cores_p'] or { panic("[!] Error, CPU cores position") }).arr()[0].int(), (hdw['cpu_cores_p'] or { panic("[!] Error, CPU cores position") }).arr()[1].int()], "${cs.sys.hdw.cpu_cores}  ")
+		ut.place_text([(hdw['cpu_usage_p'] or { panic("[!] Error, CPU usage position") }).arr()[0].int(), (hdw['cpu_usage_p'] or { panic("[!] Error, CPU usage position") }).arr()[1].int()], "${cs.sys.hdw.cpu_usage}  ")
 		
-		ut.place_text([(hdw['memory_capacity_p'] or { "0" }).arr()[0].int(), (hdw['memory_capacity_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.memory_capacity} GB")
-		ut.place_text([(hdw['memory_used_p'] or { "0" }).arr()[0].int(), (hdw['memory_used_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.memory_used} GB")
-		ut.place_text([(hdw['memory_free_p'] or { "0" }).arr()[0].int(), (hdw['memory_free_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.memory_free} GB")
-		ut.place_text([(hdw['memory_usage_p'] or { "0" }).arr()[0].int(), (hdw['memory_usage_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.memory_used}/${cs.sys.hdw.memory_capacity} GB")
+		ut.place_text([(hdw['memory_capacity_p'] or { panic("[!] Error, Memory capacity position") }).arr()[0].int(), (hdw['memory_capacity_p'] or { panic("[!] Error, Memory capacity position") }).arr()[1].int()], "${cs.sys.hdw.memory_capacity} GB")
+		ut.place_text([(hdw['memory_used_p'] or { panic("[!] Error, Memory used positoin") }).arr()[0].int(), (hdw['memory_used_p'] or { panic("[!] Error, Memory used positoin") }).arr()[1].int()], "${cs.sys.hdw.memory_used} GB")
+		ut.place_text([(hdw['memory_free_p'] or { panic("[!] Error, Memory free position") }).arr()[0].int(), (hdw['memory_free_p'] or { panic("[!] Error, Memory free position") }).arr()[1].int()], "${cs.sys.hdw.memory_free} GB")
+		ut.place_text([(hdw['memory_usage_p'] or { panic("[!] Error, Memory usage position") }).arr()[0].int(), (hdw['memory_usage_p'] or { panic("[!] Error, Memory usage position") }).arr()[1].int()], "${cs.sys.hdw.memory_used}/${cs.sys.hdw.memory_capacity} GB")
 	
 
 		// ut.place_text([(hdw['hdd_capacity_p'] or { "0" }).arr()[0].int(), (hdw['hdd_capacity_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.hdd_capacity} GB")
@@ -104,33 +114,36 @@ pub fn (mut cs CyberShield) run_monitor()
 		// ut.place_text([(hdw['hdd_free_p'] or { "0" }).arr()[0].int(), (hdw['hdd_free_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.hdd_capacity} GB")
 	}
 
-
-	con := cs.cfg.retrieve_conn_cfg()
-	ut.place_text([(con['interface_p'] or { "0" }).arr()[0].int(), (con['interface_'] or { "0" }).arr()[1].int()], "${cs.sys.con.iface}")
-	ut.place_text([(con['system_ip_p'] or { "0" }).arr()[0].int(), (con['system_ip_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.system_ip}")
-
-	concfg := cs.cfg.retrieve_conn_cfg()
-	graphcfg := cs.cfg.retrieve_graph_cfg()
-	go trigger_speed(mut &cs.sys.con)
-	for {
-		if (hdw['display'] or { return }).bool() == true {
-			ut.place_text([(hdw['memory_usage_p'] or { "0" }).arr()[0].int(), (hdw['memory_usage_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.memory_used}/${cs.sys.hdw.memory_capacity} GB")
-		}
-		// cs.sys.pull_all_info()
-		graph.append_to_graph(cs.sys.con.pps) or { return } 
-		ut.list_text([(graphcfg['graph_p'] or { "0"}).arr()[0].int(), (graphcfg['graph_p'] or { "0"}).arr()[1].int()], cs.cfg.replace_color_code(graph.render_graph().replace("#", "{Light_Blue}#{Reset_Term}")))
-
-		ut.place_text([(concfg['pps_p'] or { "0"}).arr()[0].int(), (concfg['pps_p'] or { "0"}).arr()[1].int()], "      ")
-		ut.place_text([(concfg['pps_p'] or { "0"}).arr()[0].int(), (concfg['pps_p'] or { "0"}).arr()[1].int()], "${cs.sys.con.pps}")
-
-		if cs.sys.con.upload != "" || cs.sys.con.download != "" {
-			ut.place_text([(con['download_speed_p'] or { "0" }).arr()[0].int(), (con['download_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.download}")
-			ut.place_text([(con['upload_speed_p'] or { "0" }).arr()[0].int(), (con['upload_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.upload}")
-		}
-		
-		time.sleep(1*time.second)
+	/* Display Hardware Information */
+	if (con['display'] or { panic("[!] Error, Display use boolean")}).bool() == true { 
+		ut.place_text([(con['interface_p'] or { panic("[!] Error, Interface position") }).arr()[0].int(), (con['interface_p'] or { panic("[!] Error, Interface position") }).arr()[1].int()], "${cs.sys.con.iface}")
+		ut.place_text([(con['system_ip_p'] or { panic("[!] Error, System IP position") }).arr()[0].int(), (con['system_ip_p'] or { panic("[!] Error, System IP position") }).arr()[1].int()], "${cs.sys.con.system_ip}")
 	}
 
+
+	go trigger_speed(mut &cs.sys.con)
+	for {
+		// if (hdw['display'] or { return }).bool() == true {
+			ut.place_text([(hdw['memory_usage_p'] or { "0" }).arr()[0].int(), (hdw['memory_usage_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.memory_used}/${cs.sys.hdw.memory_capacity} GB")
+		// }
+		
+		// if (graphcfg['display'] or { panic("[!] Error, Graph Display boolean")}).bool() == true {
+			graph.append_to_graph(cs.sys.con.pps) or { return } 
+			ut.list_text([(graphcfg['graph_p'] or { "0"}).arr()[0].int(), (graphcfg['graph_p'] or { "0"}).arr()[1].int()], cs.cfg.replace_color_code(graph.render_graph().replace("#", "{Light_Blue}#{Reset_Term}")))
+		// }
+
+		ut.place_text([(con['pps_p'] or { "0" }).arr()[0].int(), (con['pps_p'] or { "0" }).arr()[1].int()], "      ")
+		ut.place_text([(con['pps_p'] or { "0" }).arr()[0].int(), (con['pps_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.pps}")
+
+		// if (con['display'] or { panic("[!] Error, Con Display boolean") }).bool() == true {
+			if cs.sys.con.upload != "" || cs.sys.con.download != "" {
+				ut.place_text([(con['download_speed_p'] or { "0" }).arr()[0].int(), (con['download_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.download}")
+				ut.place_text([(con['upload_speed_p'] or { "0" }).arr()[0].int(), (con['upload_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.upload}")
+			}
+		// }
+		ut.place_text([2, 10], "Testing ${cs.tick}...")
+		time.sleep(500*time.millisecond)
+	}
 }
 
 pub fn run_protection(mut cs CyberShield)

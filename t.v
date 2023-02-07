@@ -1,12 +1,21 @@
 import os
 
+pub struct Netstat 
+{
+    
+}
+
 fn main() {
+    print(get_netstat())
+}
+
+fn get_netstat() map[string][]string {
 
     mut conn_list := map[string][]string{}
     connections := os.execute("netstat -tn").output
     mut con_arr := connections.split("\n")
-    con_arr.delete(0) // Deleting extra netstat -tn BS 
-    con_arr.delete(0) 
+    for _ in 0..1 { con_arr.delete(0) }
+    
     for line in con_arr
     {
         info := strip_array(line.split(" "))
@@ -14,10 +23,7 @@ fn main() {
         conn_list[info[4]] = [info[0], info[3].split(":")[info[3].split(":").len-1], info[1], info[2], info[5]]
     }
 
-    for key, value in conn_list 
-    {
-        print("${key}: ${value}\n")
-    }
+    return conn_list
 }
 
 fn strip_array(a []string) []string {

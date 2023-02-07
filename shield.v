@@ -3,7 +3,6 @@ import os
 import time
 import vweb
 import core as cs
-import core.tui as t
 import core.app_auth
 import core.web as w
 

@@ -4,7 +4,6 @@ import io
 import net
 import x.json2 as j
 import core.utils
-import core.tools as tl
 
 pub struct LicenseID {
 	pub mut: 
@@ -37,11 +36,11 @@ pub fn connect_to_backend(mut lic LicenseID) LicenseID {
 
 	if data.starts_with("{") && data.ends_with("}") { //validating json format
 		user_info := (j.raw_decode(data) or { map[string]j.Any{} }).as_map()
-		lic.auth_status = "${user_info['status']}".bool()
-		lic.username = "${user_info['discord_tag']}".split("#")[0]
-		lic.discord_id = "${user_info['discord_id']}"
-		lic.tui_status = "${user_info['tui_status']}".bool()
-		lic.protection_status = "${user_info['protection_status']}".bool()
+		lic.auth_status = (user_info['status'] or { panic("[!] Error, Status")}).bool()
+		lic.username = (user_info['discord_tag'] or { panic("[!] Error, User Discord Tag")}).str()
+		lic.discord_id = (user_info['discord_id'] or { panic("[!] Error, User Discord ID") }).str()
+		lic.tui_status = (user_info['tui_status'] or { panic("[!] Error, TUI Status")}).bool()
+		lic.protection_status = (user_info['protection_status'] or { panic("[!] Error, Protection Status")}).bool()
 	}
 	
 	go connection(mut &lic, mut socket, mut reader)
