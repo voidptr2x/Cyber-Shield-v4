@@ -17,7 +17,7 @@ pub fn hide_cursor() {
 }
 
 pub fn show_cursor() {
-	print("")
+	print("\033[?25h")
 }
 
 pub fn place_text(p []int, t string) {

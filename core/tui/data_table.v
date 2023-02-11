@@ -34,12 +34,12 @@ pub fn (mut t Table) create_table_title(title string) {
 	title_len := title.len
 	mut spaces_left := 0
 	for _, i in t.columns {
-		spaces_left += i
+		spaces_left += i+1
 		first_line += MiddleLine + t.fill_line(i+1)
 		last_line += t.fill_line(i+2)
 	}
 
-	for _ in 0..(spaces_left-title_len)+6 {
+	for _ in 0..(spaces_left-title_len)+4 {
 		header_row += " "
 	}
 

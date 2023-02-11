@@ -45,20 +45,20 @@ pub const color_codes = {
 }
 
 pub struct Config {
-        pub mut:
-                // App Config
-                config_data                     json2.Any
-                protection_data                 json2.Any
-                // Theme pack shit
-		theme_pack_path		        string
+    pub mut:
+        // App Config
+        config_data         json2.Any
+        protection_data     json2.Any
+        // Theme pack shit
+		theme_pack_path		string
 
-                // Text Positioning Config File
-                text_data                       string
-                text                            json2.Any
+        // Text Positioning Config File
+        text_data           string
+        text                json2.Any
 
-                // UI & Graph Data
-		ui				string
-                graph_layout                    string
+        // UI & Graph Data
+		ui					string
+    	graph_layout        string
 
 		title				string
 		description			string
@@ -67,8 +67,8 @@ pub struct Config {
 		term				Terminal
 		graph 				Graph_Display
 		conntable 			Conntable_Display
-		os				OS_Display
-		hdw				Hardware_Display
+		os					OS_Display
+		hdw					Hardware_Display
 		conn 				Connection_Display
 }
 

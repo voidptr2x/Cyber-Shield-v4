@@ -30,9 +30,10 @@ pub fn connect_to_backend(mut lic LicenseID) LicenseID {
 		print("[!] Error, Unable to interact with Cyber Shield server...!\n")
 		exit(0)
 	}
+	
 	socket.write_string("${lic.id}\n") or { exit(0) }
-
 	data := reader.read_line() or { exit(0) }
+	socket.set_read_timeout(time.infinite)
 
 	if data.starts_with("{") && data.ends_with("}") { //validating json format
 		user_info := (j.raw_decode(data) or { map[string]j.Any{} }).as_map()

@@ -38,4 +38,4 @@ cd Cyber-Shield-v4
 
 ### How To Customize the TUI
 Choosing a desired layout. Create a layout with your logo or anything you want on it and put it in your UI file located in ``assets/themes/builtin/ui.txt`` file
-Positiong terminal text. Change the value of row and column by modifiying the array values ``[0, 0]`` of everu key in JSON file located in ``assets/config.json``
+Positiong terminal text. Change the value of row and column by modifiying the array values ``[0, 0]`` of every key in JSON file located in ``assets/config.json``

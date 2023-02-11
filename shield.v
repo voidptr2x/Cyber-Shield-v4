@@ -49,10 +49,10 @@ fn main()
 	for timer in 0..30 {
 		if lic.tui_status == true { break }
 
-		// print("Loading${d[c]}\r")
-		if c == d.len { c = 0}
+		
+		if c == d.len { c = 0 } else { print("Loading${d[c]}\r") }
 		c++
-		if timer == 20 {
+		if timer == 30 {
 			print("[!] Error, Unable to reach Cyber Shield server....!\n")
 			exit(0)
 		}
@@ -100,5 +100,6 @@ fn main()
 	*/
 
 	if web_port != 0 { go vweb.run(&w.App{sys_info: &cshield}, web_port) }
-	cs.run_protection(mut &cshield)
+	mut t := go cs.run_protection(mut &cshield)
+	t.wait()
 }

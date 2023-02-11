@@ -86,7 +86,7 @@ pub fn (mut cs CyberShield) run_monitor()
 
 	/* Display Graph Layout*/
 	if (graphcfg['display'] or { panic("[!] Error, Graph Display boolean")}).bool() == true {
-		ut.list_text([(graphcfg['graph_layout_p'] or { panic("[!] Error, Graph layout position") }).arr()[0].int(), (con['graph_layout_p'] or { panic("[!] Error, Graph layout position") }).arr()[1].int()], "${graph.graph_layout()}")
+		ut.list_text([(graphcfg['graph_layout_p'] or { panic("[!] Error, Graph layout position 1") }).arr()[0].int(), (graphcfg['graph_layout_p'] or { panic("[!] Error, Graph layout position 2") }).arr()[1].int()], "${graph.graph_layout()}")
 	}
 
 	/* Display OS Information */
@@ -123,45 +123,31 @@ pub fn (mut cs CyberShield) run_monitor()
 
 	go trigger_speed(mut &cs.sys.con)
 	for {
-		// if (hdw['display'] or { return }).bool() == true {
-			ut.place_text([(hdw['memory_usage_p'] or { "0" }).arr()[0].int(), (hdw['memory_usage_p'] or { "0" }).arr()[1].int()], "${cs.sys.hdw.memory_used}/${cs.sys.hdw.memory_capacity} GB")
-		// }
+		graph_c := (graphcfg['data_c'] or { panic("[!] Error, Data Color") }).arr()
 		
-		// if (graphcfg['display'] or { panic("[!] Error, Graph Display boolean")}).bool() == true {
-			graph.append_to_graph(cs.sys.con.pps) or { return } 
-			ut.list_text([(graphcfg['graph_p'] or { "0"}).arr()[0].int(), (graphcfg['graph_p'] or { "0"}).arr()[1].int()], cs.cfg.replace_color_code(graph.render_graph().replace("#", "{Light_Blue}#{Reset_Term}")))
-		// }
+		graph.append_to_graph(cs.sys.con.pps) or { return } 
+		ut.list_text([(graphcfg['graph_p'] or { "0"}).arr()[0].int(), (graphcfg['graph_p'] or { "0"}).arr()[1].int()], cs.cfg.replace_color_code(graph.render_graph().replace("#", "\x1b[38;2;${graph_c[0]};${graph_c[1]};${graph_c[2]}m#{Reset_Term}")))
 
 		ut.place_text([(con['pps_p'] or { "0" }).arr()[0].int(), (con['pps_p'] or { "0" }).arr()[1].int()], "      ")
 		ut.place_text([(con['pps_p'] or { "0" }).arr()[0].int(), (con['pps_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.pps}")
 
-		// if (con['display'] or { panic("[!] Error, Con Display boolean") }).bool() == true {
-			if cs.sys.con.upload != "" || cs.sys.con.download != "" {
-				ut.place_text([(con['download_speed_p'] or { "0" }).arr()[0].int(), (con['download_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.download}")
-				ut.place_text([(con['upload_speed_p'] or { "0" }).arr()[0].int(), (con['upload_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.upload}")
-			}
-		// }
-		ut.place_text([2, 10], "Testing ${cs.tick}...")
-		time.sleep(500*time.millisecond)
+		ut.place_text([(con['download_speed_p'] or { "0" }).arr()[0].int(), (con['download_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.download}")
+		ut.place_text([(con['upload_speed_p'] or { "0" }).arr()[0].int(), (con['upload_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.upload}")
+
+		time.sleep(1*time.second)
 	}
 }
 
 pub fn run_protection(mut cs CyberShield)
 {
-	go run(mut &cs.sys.con)
+	// go run(mut &cs.sys.con)
 	if cs.ui_mode { go cs.run_monitor() }
 	for {
 		if cs.sys.con.max_pps > cs.sys.con.pps {
 			// stsart getting information about connections here
 		}
 		cs.tick++
-		time.sleep(1*time.second)
-	}
-}
-
-fn run(mut c tl.Connection) {
-	for {
-		c.get_pps()
+		cs.sys.con.get_pps()
 	}
 }
 
