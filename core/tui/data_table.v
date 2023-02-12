@@ -26,17 +26,21 @@ pub struct Table {
 		table		string
 }
 
+pub fn (mut t Table) reset_table() {
+	t.table = ""
+}
+
 pub fn (mut t Table) create_table_title(title string) {
 	mut first_line := UpperLeft_Corner
 	mut header_row := MiddleEdge + " ${title}"
-	mut last_line := BottomLeft_Corner
+	mut last_line := LeftLineLeft
 
 	title_len := title.len
 	mut spaces_left := 0
 	for _, i in t.columns {
 		spaces_left += i+1
 		first_line += MiddleLine + t.fill_line(i+1)
-		last_line += t.fill_line(i+2)
+		last_line += MiddleDownLine + t.fill_line(i+1)
 	}
 
 	for _ in 0..(spaces_left-title_len)+4 {
@@ -45,9 +49,9 @@ pub fn (mut t Table) create_table_title(title string) {
 
 	header_row += MiddleEdge
 	first_line += UpperRight_Corner
-	last_line += BottomRight_Corner
+	last_line += RightLineRight
 
-	t.table += first_line.replace("═╗", "╗") + "\r\n" + header_row + "\r\n" + last_line.replace("═╝", "╝") + "\r\n"
+	t.table += first_line.replace("═╗", "╗") + "\r\n" + header_row + "\r\n" + last_line.replace("═╣", "═╣").replace("╠╦", "╠") + "\r\n"
 }
 
 pub fn create_table(cols []int) Table {

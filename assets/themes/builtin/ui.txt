@@ -33,4 +33,4 @@
 {Dark_Grey}│  {Yellow}Memory Free:{Default} N/A                                                                                              {Dark_Grey}│{Default}
 {Dark_Grey}│  {Yellow}Memory Usage:{Default} N/A                                                                                             {Dark_Grey}│{Default}
 {Dark_Grey}│                                                                                                                {Dark_Grey}│{Default}
-{Yellow}└────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘{Default}
+{Dark_Grey}└────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘{Default}

@@ -60,6 +60,11 @@ pub fn (mut cs CyberShield) get_all_interfaces() []string
 
 pub fn (mut cs CyberShield) run_monitor() 
 {
+	
+}
+
+pub fn run_protection(mut cs CyberShield)
+{
 	if cs.cs_server.tui_status == false { 
 		print("[!] Error, You are not able to use this feature. Message owner for details...\n")
 		return 
@@ -73,6 +78,8 @@ pub fn (mut cs CyberShield) run_monitor()
 	/* Display main UI and Set up Graph Size */
 	print(cs.cfg.replace_color_code(cs.cfg.ui))
 	mut graph := tui.graph_init__(cs.cfg.theme_pack_path, 23, 65)
+	mut t := tui.create_table([6, 5, 5, 20, 20, 13])
+    t.create_table_title("Netstat -tn Alternative")
 
 	/* Call all screen configuration information */
 	graphcfg := cs.cfg.retrieve_graph_cfg()
@@ -80,6 +87,7 @@ pub fn (mut cs CyberShield) run_monitor()
 	hdw := cs.cfg.retrieve_hdw_cfg()
 	con := cs.cfg.retrieve_conn_cfg()
 	sz := cs.cfg.retrieve_term_cfg()
+	cont := cs.cfg.retrieve_conntable_cfg()
 
 	/* Set Terminal Size */
 	ut.set_term_size((sz['size'] or { 0 }).arr()[0].int(), (sz['size'] or { 0 }).arr()[1].int())
@@ -121,12 +129,36 @@ pub fn (mut cs CyberShield) run_monitor()
 	}
 
 
-	go trigger_speed(mut &cs.sys.con)
+
+	go run(mut &cs.sys.con)
+	mut table_line_count := 0
+	// go trigger_speed(mut &cs.sys.con)
 	for {
 		graph_c := (graphcfg['data_c'] or { panic("[!] Error, Data Color") }).arr()
 		
-		graph.append_to_graph(cs.sys.con.pps) or { return } 
-		ut.list_text([(graphcfg['graph_p'] or { "0"}).arr()[0].int(), (graphcfg['graph_p'] or { "0"}).arr()[1].int()], cs.cfg.replace_color_code(graph.render_graph().replace("#", "\x1b[38;2;${graph_c[0]};${graph_c[1]};${graph_c[2]}m#{Reset_Term}")))
+		if (graphcfg['display'] or { panic("[!] Error, Graph display")}).bool() {
+			graph.append_to_graph(cs.sys.con.pps) or { return } 
+			ut.list_text([(graphcfg['graph_p'] or { "0"}).arr()[0].int(), (graphcfg['graph_p'] or { "0"}).arr()[1].int()], cs.cfg.replace_color_code(graph.render_graph().replace("#", "\x1b[38;2;${graph_c[0]};${graph_c[1]};${graph_c[2]}m#{Reset_Term}")))
+		}
+
+		if cs.tick == 2 {
+			if (cont['display'] or { panic("[!] Error, Conntable Display")}).bool() {
+				mut clear_table := ""
+				for line in 0..table_line_count { clear_table += "                                                                                    \n" }
+				ut.list_text([(cont['table_p'] or { panic("[!] Error, Table position")}).arr()[0].int(), (cont['table_p'] or { panic("[!] Error, Table position")}).arr()[1].int()], clear_table)
+				n := tl.get_netstat()
+				for cocks in n.cons {                                                                                   
+					t.add_row([cocks.protocol, "${cocks.recv_bytes}", "${cocks.sent_bytes}", cocks.internal_addr, cocks.incoming_addr, cocks.state])
+					// if cocks != n.cons[n.cons.len-1] { t.add_separator() }
+
+				}
+				t.create_footer()
+				table_line_count = t.fetch_table().split("\n").len
+				ut.list_text([(cont['table_p'] or { "0" }).arr()[0].int(), (cont['table_p'] or { "0" }).arr()[1].int()], t.fetch_table())
+			}
+			cs.tick = 0
+		}
+		t.reset_table()
 
 		ut.place_text([(con['pps_p'] or { "0" }).arr()[0].int(), (con['pps_p'] or { "0" }).arr()[1].int()], "      ")
 		ut.place_text([(con['pps_p'] or { "0" }).arr()[0].int(), (con['pps_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.pps}")
@@ -135,22 +167,28 @@ pub fn (mut cs CyberShield) run_monitor()
 		ut.place_text([(con['upload_speed_p'] or { "0" }).arr()[0].int(), (con['upload_speed_p'] or { "0" }).arr()[1].int()], "${cs.sys.con.upload}")
 
 		time.sleep(1*time.second)
-	}
-}
-
-pub fn run_protection(mut cs CyberShield)
-{
-	// go run(mut &cs.sys.con)
-	if cs.ui_mode { go cs.run_monitor() }
-	for {
-		if cs.sys.con.max_pps > cs.sys.con.pps {
-			// stsart getting information about connections here
-		}
 		cs.tick++
-		cs.sys.con.get_pps()
+		// cs.sys.con.get_pps()
 	}
+	
+	// go run(mut &cs.sys.con)
+	// if cs.ui_mode { go cs.run_monitor() }
+	// for {
+	// 	if cs.sys.con.max_pps > cs.sys.con.pps {
+	// 		// stsart getting information about connections here
+	// 	}
+	// 	cs.tick++
+	// 	cs.sys.con.get_pps()
+	// }
 }
 
 fn trigger_speed(mut c tl.Connection) {
 	c.get_speed()
+}
+
+fn run(mut c tl.Connection) {
+	for 
+	{
+		c.get_pps()
+	}
 }

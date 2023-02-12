@@ -8,6 +8,19 @@ pub fn retrieve_theme_pack(theme_pack string) Config
 	mut c := Config{term: Terminal{}, graph: Graph_Display{}, conntable: Conntable_Display{}, os: OS_Display{}, hdw: Hardware_Display{}, conn: Connection_Display{}}
 	c.theme_pack_path = "assets/themes/${theme_pack}/"
 
+	config_data := os.read_file(config_path) or { 
+		print("[x] Error - RmCrx0tRizIi, Unable to locate or read ${config_path}")
+		exit(0)
+	}
+	c.config_data = j.raw_decode(config_data) or { return c }
+
+	prot_data := os.read_file(prot_path) or { 
+		print("[x] Error - RmCrx0tRizIi, Unable to locate or read ${prot_path}")
+		exit(0) 
+	}
+
+	c.protection_data = j.raw_decode(prot_data) or { return c }
+
 	file_data := os.read_file("${c.theme_pack_path}text_position.json") or { 
 		print("[x] Error - RmCrx0tRizIi, Unable to locate or read ${c.theme_pack_path}text_position.json")
 		exit(0)
@@ -71,4 +84,31 @@ pub fn (mut c Config) retrieve_graph_cfg() map[string]j.Any
 		exit(0)
 	}
 	return (j.raw_decode("${graph_d}") or { return map[string]j.Any{} }).as_map()
+}
+
+pub fn (mut c Config) retrieve_conntable_cfg() map[string]j.Any
+{
+	contable_d := c.text.as_map()['Conntable_Display'] or {
+		print("[!] Error - X3pm0slbVA55, Missing 'Conntable_Display' structure in JSON file....!")
+		exit(0)
+	}
+	return (j.raw_decode("${contable_d}") or { return map[string]j.Any{} }).as_map()
+}
+
+pub fn (mut c Config) retrieve_prot_ips_config() map[string]j.Any
+{
+	prot := c.protection_data.as_map()['IPs'] or {
+		print("[!] Error - X3pm0slbVA55, Missing 'Conntable_Display' structure in JSON file....!")
+		exit(0)
+	}
+	return (j.raw_decode("${prot}") or { return map[string]j.Any{} }).as_map()
+}
+
+pub fn (mut c Config) retrieve_prot_ports_config() map[string]j.Any
+{
+	prot := c.protection_data.as_map()['Ports'] or {
+		print("[!] Error - X3pm0slbVA55, Missing 'Conntable_Display' structure in JSON file....!")
+		exit(0)
+	}
+	return (j.raw_decode("${prot}") or { return map[string]j.Any{} }).as_map()
 }

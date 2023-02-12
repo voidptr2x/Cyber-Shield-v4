@@ -2,6 +2,9 @@ module tui
 
 import x.json2
 
+pub const config_path = "assets/config.json"
+pub const prot_path = "assets/protection.json"
+
 pub const color_codes = {
 	'{Bold}': '\x1b[1m',
 	'{Reset_Term}': '\x1b[0m',
