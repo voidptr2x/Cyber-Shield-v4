@@ -81,6 +81,8 @@ pub fn run_protection(mut cs CyberShield)
 	mut t := tui.create_table([6, 5, 5, 20, 20, 13])
     t.create_table_title("Netstat -tn Alternative")
 
+	time.sleep(500*time.millisecond)
+
 	/* Call all screen configuration information */
 	graphcfg := cs.cfg.retrieve_graph_cfg()
 	os_info := cs.cfg.retrieve_os_cfg()
@@ -143,9 +145,12 @@ pub fn run_protection(mut cs CyberShield)
 
 		if cs.tick == 2 {
 			if (cont['display'] or { panic("[!] Error, Conntable Display")}).bool() {
+				// Clear Connection Table
 				mut clear_table := ""
 				for line in 0..table_line_count { clear_table += "                                                                                    \n" }
 				ut.list_text([(cont['table_p'] or { panic("[!] Error, Table position")}).arr()[0].int(), (cont['table_p'] or { panic("[!] Error, Table position")}).arr()[1].int()], clear_table)
+				
+				// Display Connection Table
 				n := tl.get_netstat()
 				for cocks in n.cons {                                                                                   
 					t.add_row([cocks.protocol, "${cocks.recv_bytes}", "${cocks.sent_bytes}", cocks.internal_addr, cocks.incoming_addr, cocks.state])

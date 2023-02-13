@@ -95,13 +95,18 @@ pub fn (mut c Config) retrieve_conntable_cfg() map[string]j.Any
 	return (j.raw_decode("${contable_d}") or { return map[string]j.Any{} }).as_map()
 }
 
-pub fn (mut c Config) retrieve_prot_ips_config() map[string]j.Any
+pub fn (mut c Config) retrieve_prot_ips_config() []string
 {
+	mut safe_ip := []string{}
 	prot := c.protection_data.as_map()['IPs'] or {
 		print("[!] Error - X3pm0slbVA55, Missing 'Conntable_Display' structure in JSON file....!")
 		exit(0)
 	}
-	return (j.raw_decode("${prot}") or { return map[string]j.Any{} }).as_map()
+	for k, v in (prot.as_map())
+	{
+		safe_ip << v.str()
+	}
+	return safe_ip
 }
 
 pub fn (mut c Config) retrieve_prot_ports_config() map[string]j.Any

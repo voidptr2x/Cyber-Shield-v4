@@ -101,20 +101,35 @@ pub fn get_netstat() Netstat {
         }
 
 		
-		n.validate_n_add(internal_a_port)
+		n.validate_n_add(internal_a, internal_a_port)
         n.cons << new_con(info[0], info[1].int(), info[2].int(), internal_a, internal_a_port, incoming_a, incoming_a_port, info[5])
     }
 
     return n
 }
 
-pub fn (mut n Netstat) validate_n_add(port int) {
+pub fn (mut n Netstat) get_abused_port() int
+{
+	mut abused_port := 0
+	for k, v in n.ports_used {
+		if abused_port > v { abused_port = v } 
+	}
+	return abused_port
+}
+
+pub fn (mut n Netstat) validate_n_add(ip string, port int) {
+	mut c := tui.retrieve_theme_pack("builtin")
+	ips := c.retrieve_prot_ips_config()
 	for k, v in n.ports_used
 	{
 		if port == k {
-			n.ports_used[port]++
+			if ip in ips {} else { 
+				n.ports_used[port]++ 
+				return 
+			}
 		} else {
 			n.ports_used[port] = 1
+			return
 		}
 	}
 }
